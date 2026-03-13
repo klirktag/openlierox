@@ -14,6 +14,7 @@
 
 #include "MathLib.h"
 #include "StringUtils.h"
+#include <cctype>
 
 
 static const char     *faster[] = {
@@ -259,7 +260,7 @@ std::string sex(short wraplen) {
 				buffer[lastword] = '\n';
 				lwidth = pos - lastword;
 			}
-			if (isspace(*cp)) {
+			if (std::isspace(static_cast<unsigned char>(*cp))) {
 				lastword = pos;
 			} 
 			pos++;

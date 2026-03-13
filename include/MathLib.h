@@ -22,6 +22,7 @@
 #define __MATHLIB_H__
 
 #include <cmath>
+#include <cstdint>
 
 #include "CVec.h"
 
