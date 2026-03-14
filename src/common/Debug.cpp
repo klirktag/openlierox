@@ -368,11 +368,16 @@ void OlxWriteCoreDump(const char* fileName)
 #ifdef GCOREDUMPER
 #include <google/coredumper.h>
 #endif
+#include <limits.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <cstring>
 #include <cstdio>
+
+#ifndef PATH_MAX
+#define PATH_MAX 4096
+#endif
 
 #ifndef GCOREDUMPER
 static void GdbWriteCoreDump(const char* fname) {
