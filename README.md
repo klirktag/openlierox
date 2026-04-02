@@ -28,17 +28,50 @@ For more details, read here: <http://www.openlierox.net/wiki/index.php/Compile_O
 
 ### Linux/Unix
 
-Use `CMake`, e.g.:
+Install development dependencies, for Ubuntu and Debian it can be done with:
 
-    cmake .
+```
+sudo apt install \
+    libsdl2-dev \
+    libsdl2-image-dev \
+    libsdl2-mixer-dev \
+    libxml2-dev \
+    libgd-dev \
+    zlib1g-dev \
+    libzip-dev \
+    libx11-dev \
+    libcurl4-openssl-dev \
+    libboost-dev \
+    libopenal-dev \
+    libalut-dev \
+    libvorbis-dev \
+    binutils-dev \
+    libiberty-dev
+```
+
+To build use `CMake`, e.g.:
+
+```
+cmake .
+```
 
 or:
 
-    cmake -DHAWKNL_BUILTIN=Yes .
+```
+cmake -DHAWKNL_BUILTIN=Yes .
+```
 
 followed by:
 
-    make -j8
+```
+make -j8
+```
+
+Then for starting the game:
+
+```
+./start.sh
+```
 
 ### Mac OS X
 
