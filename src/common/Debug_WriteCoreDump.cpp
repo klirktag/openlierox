@@ -236,6 +236,7 @@ void OlxWriteCoreDump(const char* fileName)
 #ifdef GCOREDUMPER
 #include <google/coredumper.h>
 #endif
+#include <climits>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
