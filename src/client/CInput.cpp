@@ -218,6 +218,10 @@ joystick_t Joysticks[] = {
 	{ "joy1_turnright",JOY_TURN_RIGHT,0, axis_Z},
 	{ "joy1_thr_up",JOY_THROTTLE_LEFT,0, axis_Throttle},
 	{ "joy1_thr_down",JOY_THROTTLE_RIGHT,0, axis_Throttle},
+	{ "joy1_hat_up",JOY_HAT_UP,0, axis_None},
+	{ "joy1_hat_down",JOY_HAT_DOWN,0, axis_None},
+	{ "joy1_hat_left",JOY_HAT_LEFT,0, axis_None},
+	{ "joy1_hat_right",JOY_HAT_RIGHT,0, axis_None},
 	{ "joy2_up",JOY_UP,0, axis_Y},
 	{ "joy2_down",JOY_DOWN,0, axis_Y},
 	{ "joy2_left",JOY_LEFT,0, axis_X},
@@ -238,6 +242,10 @@ joystick_t Joysticks[] = {
 	{ "joy2_turnright",JOY_TURN_RIGHT,0, axis_Z},
 	{ "joy2_thr_up",JOY_THROTTLE_LEFT,0, axis_Throttle},
 	{ "joy2_thr_down",JOY_THROTTLE_RIGHT,0, axis_Throttle},
+	{ "joy2_hat_up",JOY_HAT_UP,0, axis_None},
+	{ "joy2_hat_down",JOY_HAT_DOWN,0, axis_None},
+	{ "joy2_hat_left",JOY_HAT_LEFT,0, axis_None},
+	{ "joy2_hat_right",JOY_HAT_RIGHT,0, axis_None},
 };
 
 static SDL_Joystick* joys[2] = {NULL, NULL};
@@ -276,6 +284,14 @@ static int getJoystickControlValue(int flag, int extra, SDL_Joystick* joy)
 			return SDL_JoystickGetAxis(joy, axis_Throttle);
 		case JOY_THROTTLE_RIGHT:
 			return SDL_JoystickGetAxis(joy, axis_Throttle);
+		case JOY_HAT_UP:
+			return (SDL_JoystickGetHat(joy, extra) & SDL_HAT_UP) ? 1 : 0;
+		case JOY_HAT_DOWN:
+			return (SDL_JoystickGetHat(joy, extra) & SDL_HAT_DOWN) ? 1 : 0;
+		case JOY_HAT_LEFT:
+			return (SDL_JoystickGetHat(joy, extra) & SDL_HAT_LEFT) ? 1 : 0;
+		case JOY_HAT_RIGHT:
+			return (SDL_JoystickGetHat(joy, extra) & SDL_HAT_RIGHT) ? 1 : 0;
 
 		default:
 			warnings << "getJoystickValue: unknown flag" << endl;
@@ -292,25 +308,26 @@ static bool checkJoystickState(int flag, int extra, int j_index) {
 	int val;
 
 	// TODO: atm these limits are hardcoded; make them constants (or perhaps also configurable)
+	static const int JOY_DEADZONE = 8000;
 	switch(flag) {
 		case JOY_UP:
 			val = SDL_JoystickGetAxis(joy, axis_Y);
-			if(val < -3200)
+			if(val < -JOY_DEADZONE)
 				return true;
 			break;
 		case JOY_DOWN:
 			val = SDL_JoystickGetAxis(joy, axis_Y);
-			if(val > 3200)
+			if(val > JOY_DEADZONE)
 				return true;
 			break;
 		case JOY_LEFT:
 			val = SDL_JoystickGetAxis(joy, axis_X);
-			if(val < -3200)
+			if(val < -JOY_DEADZONE)
 				return true;
 			break;
 		case JOY_RIGHT:
 			val = SDL_JoystickGetAxis(joy, axis_X);
-			if(val > 3200)
+			if(val > JOY_DEADZONE)
 				return true;
 			break;
 		case JOY_BUTTON:
@@ -319,12 +336,12 @@ static bool checkJoystickState(int flag, int extra, int j_index) {
 			break;
 		case JOY_TURN_LEFT:
 			val = SDL_JoystickGetAxis(joy, axis_Z);
-			if (val < -3200)
+			if (val < -JOY_DEADZONE)
 				return true;
 			break;
 		case JOY_TURN_RIGHT:
 			val = SDL_JoystickGetAxis(joy, axis_Z);
-			if (val > 3200)
+			if (val > JOY_DEADZONE)
 				return true;
 			break;
 
@@ -336,6 +353,23 @@ static bool checkJoystickState(int flag, int extra, int j_index) {
 			break;
 		case JOY_THROTTLE_RIGHT:
 			if (SDL_JoystickGetAxis(joy, axis_Throttle) - oldJoystickAxisValues[j_index][axis_Throttle] > 50)
+				return true;
+			break;
+
+		case JOY_HAT_UP:
+			if (SDL_JoystickGetHat(joy, extra) & SDL_HAT_UP)
+				return true;
+			break;
+		case JOY_HAT_DOWN:
+			if (SDL_JoystickGetHat(joy, extra) & SDL_HAT_DOWN)
+				return true;
+			break;
+		case JOY_HAT_LEFT:
+			if (SDL_JoystickGetHat(joy, extra) & SDL_HAT_LEFT)
+				return true;
+			break;
+		case JOY_HAT_RIGHT:
+			if (SDL_JoystickGetHat(joy, extra) & SDL_HAT_RIGHT)
 				return true;
 			break;
 
@@ -361,6 +395,7 @@ static void initJoystick(int i, bool isTemp) {
 			notes << "  Number of Axes: " << SDL_JoystickNumAxes(joys[i]) << endl;
 			notes << "  Number of Buttons: " << SDL_JoystickNumButtons(joys[i]) << endl;
 			notes << "  Number of Balls: " << SDL_JoystickNumBalls(joys[i]) << endl;
+			notes << "  Number of Hats: " << SDL_JoystickNumHats(joys[i]) << endl;
 			if(isTemp) joysticks_inited_temp[i] = true;
 		} else
 			warnings << "Could not open joystick" << endl;
@@ -657,7 +692,7 @@ bool CInput::isJoystickAxis()
 {
 #ifdef HAVE_JOYSTICK
 	if (Type == INP_JOYSTICK1 || Type == INP_JOYSTICK2)
-		return Data != JOY_BUTTON;
+		return Data != JOY_BUTTON && Data != JOY_HAT_UP && Data != JOY_HAT_DOWN && Data != JOY_HAT_LEFT && Data != JOY_HAT_RIGHT;
 #endif
 	return false;
 }
