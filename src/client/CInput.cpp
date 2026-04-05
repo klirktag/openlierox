@@ -192,61 +192,61 @@ static const int JOY_DEADZONE = 8000;
 // Trigger threshold: triggers range 0..32767; fire at 75% travel
 static const int JOY_TRIGGER_THRESHOLD = 24576;
 
-// Binding table — maps config string to JOY_* flag and button index (extra).
-// Buttons use SDL_GameControllerButton values as the index:
-//   0=A  1=B  2=X  3=Y  4=Back  5=Guide  6=Start
-//   7=LS 8=RS 9=LB 10=RB
+// Binding table — maps config string to JOY_* flag and SDL constant (extra).
+// Text names use SDL's naming: SDL_GameControllerGetStringForButton/Axis
+// For axes:    extra = SDL_GameControllerAxis
+// For buttons: extra = SDL_GameControllerButton
 joystick_t Joysticks[] = {
-	{ "joy1_up",        JOY_UP,           0,  0},
-	{ "joy1_down",      JOY_DOWN,         0,  0},
-	{ "joy1_left",      JOY_LEFT,         0,  0},
-	{ "joy1_right",     JOY_RIGHT,        0,  0},
-	{ "joy1_but1",      JOY_BUTTON,       0,  0},  // A
-	{ "joy1_but2",      JOY_BUTTON,       1,  0},  // B
-	{ "joy1_but3",      JOY_BUTTON,       2,  0},  // X
-	{ "joy1_but4",      JOY_BUTTON,       3,  0},  // Y
-	{ "joy1_but5",      JOY_BUTTON,       4,  0},  // Back
-	{ "joy1_but6",      JOY_BUTTON,       5,  0},  // Guide
-	{ "joy1_but7",      JOY_BUTTON,       6,  0},  // Start
-	{ "joy1_but8",      JOY_BUTTON,       7,  0},  // Left stick click
-	{ "joy1_but9",      JOY_BUTTON,       8,  0},  // Right stick click
-	{ "joy1_but10",     JOY_BUTTON,       9,  0},  // Left shoulder
-	{ "joy1_but11",     JOY_BUTTON,       10, 0},  // Right shoulder
-	{ "joy1_turnleft",  JOY_TURN_LEFT,    0,  0},
-	{ "joy1_turnright", JOY_TURN_RIGHT,   0,  0},
-	{ "joy1_thr_up",    JOY_THROTTLE_LEFT,  0, 0},
-	{ "joy1_thr_down",  JOY_THROTTLE_RIGHT, 0, 0},
-	{ "joy1_hat_up",    JOY_HAT_UP,       0,  0},
-	{ "joy1_hat_down",  JOY_HAT_DOWN,     0,  0},
-	{ "joy1_hat_left",  JOY_HAT_LEFT,     0,  0},
-	{ "joy1_hat_right", JOY_HAT_RIGHT,    0,  0},
-	{ "joy1_trigger_l", JOY_TRIGGER_LEFT,  0, 0},
-	{ "joy1_trigger_r", JOY_TRIGGER_RIGHT, 0, 0},
-	{ "joy2_up",        JOY_UP,           0,  0},
-	{ "joy2_down",      JOY_DOWN,         0,  0},
-	{ "joy2_left",      JOY_LEFT,         0,  0},
-	{ "joy2_right",     JOY_RIGHT,        0,  0},
-	{ "joy2_but1",      JOY_BUTTON,       0,  0},  // A
-	{ "joy2_but2",      JOY_BUTTON,       1,  0},  // B
-	{ "joy2_but3",      JOY_BUTTON,       2,  0},  // X
-	{ "joy2_but4",      JOY_BUTTON,       3,  0},  // Y
-	{ "joy2_but5",      JOY_BUTTON,       4,  0},  // Back
-	{ "joy2_but6",      JOY_BUTTON,       5,  0},  // Guide
-	{ "joy2_but7",      JOY_BUTTON,       6,  0},  // Start
-	{ "joy2_but8",      JOY_BUTTON,       7,  0},  // Left stick click
-	{ "joy2_but9",      JOY_BUTTON,       8,  0},  // Right stick click
-	{ "joy2_but10",     JOY_BUTTON,       9,  0},  // Left shoulder
-	{ "joy2_but11",     JOY_BUTTON,       10, 0},  // Right shoulder
-	{ "joy2_turnleft",  JOY_TURN_LEFT,    0,  0},
-	{ "joy2_turnright", JOY_TURN_RIGHT,   0,  0},
-	{ "joy2_thr_up",    JOY_THROTTLE_LEFT,  0, 0},
-	{ "joy2_thr_down",  JOY_THROTTLE_RIGHT, 0, 0},
-	{ "joy2_hat_up",    JOY_HAT_UP,       0,  0},
-	{ "joy2_hat_down",  JOY_HAT_DOWN,     0,  0},
-	{ "joy2_hat_left",  JOY_HAT_LEFT,     0,  0},
-	{ "joy2_hat_right", JOY_HAT_RIGHT,    0,  0},
-	{ "joy2_trigger_l", JOY_TRIGGER_LEFT,  0, 0},
-	{ "joy2_trigger_r", JOY_TRIGGER_RIGHT, 0, 0},
+	{ "joy1_lefty_up",       JOY_UP,             SDL_CONTROLLER_AXIS_LEFTY,            0},
+	{ "joy1_lefty_down",     JOY_DOWN,           SDL_CONTROLLER_AXIS_LEFTY,            0},
+	{ "joy1_leftx_left",     JOY_LEFT,           SDL_CONTROLLER_AXIS_LEFTX,            0},
+	{ "joy1_leftx_right",    JOY_RIGHT,          SDL_CONTROLLER_AXIS_LEFTX,            0},
+	{ "joy1_a",              JOY_BUTTON,         SDL_CONTROLLER_BUTTON_A,              0},
+	{ "joy1_b",              JOY_BUTTON,         SDL_CONTROLLER_BUTTON_B,              0},
+	{ "joy1_x",              JOY_BUTTON,         SDL_CONTROLLER_BUTTON_X,              0},
+	{ "joy1_y",              JOY_BUTTON,         SDL_CONTROLLER_BUTTON_Y,              0},
+	{ "joy1_back",           JOY_BUTTON,         SDL_CONTROLLER_BUTTON_BACK,           0},
+	{ "joy1_guide",          JOY_BUTTON,         SDL_CONTROLLER_BUTTON_GUIDE,          0},
+	{ "joy1_start",          JOY_BUTTON,         SDL_CONTROLLER_BUTTON_START,          0},
+	{ "joy1_leftstick",      JOY_BUTTON,         SDL_CONTROLLER_BUTTON_LEFTSTICK,      0},
+	{ "joy1_rightstick",     JOY_BUTTON,         SDL_CONTROLLER_BUTTON_RIGHTSTICK,     0},
+	{ "joy1_leftshoulder",   JOY_BUTTON,         SDL_CONTROLLER_BUTTON_LEFTSHOULDER,   0},
+	{ "joy1_rightshoulder",  JOY_BUTTON,         SDL_CONTROLLER_BUTTON_RIGHTSHOULDER,  0},
+	{ "joy1_rightx_left",    JOY_TURN_LEFT,      SDL_CONTROLLER_AXIS_RIGHTX,           0},
+	{ "joy1_rightx_right",   JOY_TURN_RIGHT,     SDL_CONTROLLER_AXIS_RIGHTX,           0},
+	{ "joy1_righty_up",      JOY_THROTTLE_LEFT,  SDL_CONTROLLER_AXIS_RIGHTY,           0},
+	{ "joy1_righty_down",    JOY_THROTTLE_RIGHT, SDL_CONTROLLER_AXIS_RIGHTY,           0},
+	{ "joy1_dpup",           JOY_HAT_UP,         SDL_CONTROLLER_BUTTON_DPAD_UP,        0},
+	{ "joy1_dpdown",         JOY_HAT_DOWN,       SDL_CONTROLLER_BUTTON_DPAD_DOWN,      0},
+	{ "joy1_dpleft",         JOY_HAT_LEFT,       SDL_CONTROLLER_BUTTON_DPAD_LEFT,      0},
+	{ "joy1_dpright",        JOY_HAT_RIGHT,      SDL_CONTROLLER_BUTTON_DPAD_RIGHT,     0},
+	{ "joy1_triggerleft",    JOY_TRIGGER_LEFT,   SDL_CONTROLLER_AXIS_TRIGGERLEFT,      0},
+	{ "joy1_triggerright",   JOY_TRIGGER_RIGHT,  SDL_CONTROLLER_AXIS_TRIGGERRIGHT,     0},
+	{ "joy2_lefty_up",       JOY_UP,             SDL_CONTROLLER_AXIS_LEFTY,            0},
+	{ "joy2_lefty_down",     JOY_DOWN,           SDL_CONTROLLER_AXIS_LEFTY,            0},
+	{ "joy2_leftx_left",     JOY_LEFT,           SDL_CONTROLLER_AXIS_LEFTX,            0},
+	{ "joy2_leftx_right",    JOY_RIGHT,          SDL_CONTROLLER_AXIS_LEFTX,            0},
+	{ "joy2_a",              JOY_BUTTON,         SDL_CONTROLLER_BUTTON_A,              0},
+	{ "joy2_b",              JOY_BUTTON,         SDL_CONTROLLER_BUTTON_B,              0},
+	{ "joy2_x",              JOY_BUTTON,         SDL_CONTROLLER_BUTTON_X,              0},
+	{ "joy2_y",              JOY_BUTTON,         SDL_CONTROLLER_BUTTON_Y,              0},
+	{ "joy2_back",           JOY_BUTTON,         SDL_CONTROLLER_BUTTON_BACK,           0},
+	{ "joy2_guide",          JOY_BUTTON,         SDL_CONTROLLER_BUTTON_GUIDE,          0},
+	{ "joy2_start",          JOY_BUTTON,         SDL_CONTROLLER_BUTTON_START,          0},
+	{ "joy2_leftstick",      JOY_BUTTON,         SDL_CONTROLLER_BUTTON_LEFTSTICK,      0},
+	{ "joy2_rightstick",     JOY_BUTTON,         SDL_CONTROLLER_BUTTON_RIGHTSTICK,     0},
+	{ "joy2_leftshoulder",   JOY_BUTTON,         SDL_CONTROLLER_BUTTON_LEFTSHOULDER,   0},
+	{ "joy2_rightshoulder",  JOY_BUTTON,         SDL_CONTROLLER_BUTTON_RIGHTSHOULDER,  0},
+	{ "joy2_rightx_left",    JOY_TURN_LEFT,      SDL_CONTROLLER_AXIS_RIGHTX,           0},
+	{ "joy2_rightx_right",   JOY_TURN_RIGHT,     SDL_CONTROLLER_AXIS_RIGHTX,           0},
+	{ "joy2_righty_up",      JOY_THROTTLE_LEFT,  SDL_CONTROLLER_AXIS_RIGHTY,           0},
+	{ "joy2_righty_down",    JOY_THROTTLE_RIGHT, SDL_CONTROLLER_AXIS_RIGHTY,           0},
+	{ "joy2_dpup",           JOY_HAT_UP,         SDL_CONTROLLER_BUTTON_DPAD_UP,        0},
+	{ "joy2_dpdown",         JOY_HAT_DOWN,       SDL_CONTROLLER_BUTTON_DPAD_DOWN,      0},
+	{ "joy2_dpleft",         JOY_HAT_LEFT,       SDL_CONTROLLER_BUTTON_DPAD_LEFT,      0},
+	{ "joy2_dpright",        JOY_HAT_RIGHT,      SDL_CONTROLLER_BUTTON_DPAD_RIGHT,     0},
+	{ "joy2_triggerleft",    JOY_TRIGGER_LEFT,   SDL_CONTROLLER_AXIS_TRIGGERLEFT,      0},
+	{ "joy2_triggerright",   JOY_TRIGGER_RIGHT,  SDL_CONTROLLER_AXIS_TRIGGERRIGHT,     0},
 };
 
 static SDL_GameController* controllers[2] = {NULL, NULL};
@@ -262,30 +262,21 @@ static int getControllerValue(int flag, int extra, int idx)
 	switch(flag) {
 		case JOY_UP:
 		case JOY_DOWN:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_LEFTY);
 		case JOY_LEFT:
 		case JOY_RIGHT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_LEFTX);
 		case JOY_TURN_LEFT:
 		case JOY_TURN_RIGHT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_RIGHTX);
 		case JOY_THROTTLE_LEFT:
 		case JOY_THROTTLE_RIGHT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_RIGHTY);
-		case JOY_BUTTON:
-			return SDL_GameControllerGetButton(gc, (SDL_GameControllerButton)extra);
-		case JOY_HAT_UP:
-			return SDL_GameControllerGetButton(gc, SDL_CONTROLLER_BUTTON_DPAD_UP);
-		case JOY_HAT_DOWN:
-			return SDL_GameControllerGetButton(gc, SDL_CONTROLLER_BUTTON_DPAD_DOWN);
-		case JOY_HAT_LEFT:
-			return SDL_GameControllerGetButton(gc, SDL_CONTROLLER_BUTTON_DPAD_LEFT);
-		case JOY_HAT_RIGHT:
-			return SDL_GameControllerGetButton(gc, SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
 		case JOY_TRIGGER_LEFT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_TRIGGERLEFT);
 		case JOY_TRIGGER_RIGHT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+			return SDL_GameControllerGetAxis(gc, (SDL_GameControllerAxis)extra);
+		case JOY_BUTTON:
+		case JOY_HAT_UP:
+		case JOY_HAT_DOWN:
+		case JOY_HAT_LEFT:
+		case JOY_HAT_RIGHT:
+			return SDL_GameControllerGetButton(gc, (SDL_GameControllerButton)extra);
 		default:
 			warnings << "getControllerValue: unknown flag" << endl;
 	}
@@ -300,35 +291,24 @@ static bool checkControllerState(int flag, int extra, int idx)
 
 	switch(flag) {
 		case JOY_UP:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_LEFTY) < -JOY_DEADZONE;
-		case JOY_DOWN:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_LEFTY) >  JOY_DEADZONE;
 		case JOY_LEFT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_LEFTX) < -JOY_DEADZONE;
-		case JOY_RIGHT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_LEFTX) >  JOY_DEADZONE;
 		case JOY_TURN_LEFT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_RIGHTX) < -JOY_DEADZONE;
-		case JOY_TURN_RIGHT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_RIGHTX) >  JOY_DEADZONE;
 		case JOY_THROTTLE_LEFT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_RIGHTY) < -JOY_DEADZONE;
+			return SDL_GameControllerGetAxis(gc, (SDL_GameControllerAxis)extra) < -JOY_DEADZONE;
+		case JOY_DOWN:
+		case JOY_RIGHT:
+		case JOY_TURN_RIGHT:
 		case JOY_THROTTLE_RIGHT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_RIGHTY) >  JOY_DEADZONE;
-		case JOY_BUTTON:
-			return SDL_GameControllerGetButton(gc, (SDL_GameControllerButton)extra) != 0;
-		case JOY_HAT_UP:
-			return SDL_GameControllerGetButton(gc, SDL_CONTROLLER_BUTTON_DPAD_UP)    != 0;
-		case JOY_HAT_DOWN:
-			return SDL_GameControllerGetButton(gc, SDL_CONTROLLER_BUTTON_DPAD_DOWN)  != 0;
-		case JOY_HAT_LEFT:
-			return SDL_GameControllerGetButton(gc, SDL_CONTROLLER_BUTTON_DPAD_LEFT)  != 0;
-		case JOY_HAT_RIGHT:
-			return SDL_GameControllerGetButton(gc, SDL_CONTROLLER_BUTTON_DPAD_RIGHT) != 0;
+			return SDL_GameControllerGetAxis(gc, (SDL_GameControllerAxis)extra) >  JOY_DEADZONE;
 		case JOY_TRIGGER_LEFT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_TRIGGERLEFT)  > JOY_TRIGGER_THRESHOLD;
 		case JOY_TRIGGER_RIGHT:
-			return SDL_GameControllerGetAxis(gc, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > JOY_TRIGGER_THRESHOLD;
+			return SDL_GameControllerGetAxis(gc, (SDL_GameControllerAxis)extra) > JOY_TRIGGER_THRESHOLD;
+		case JOY_BUTTON:
+		case JOY_HAT_UP:
+		case JOY_HAT_DOWN:
+		case JOY_HAT_LEFT:
+		case JOY_HAT_RIGHT:
+			return SDL_GameControllerGetButton(gc, (SDL_GameControllerButton)extra) != 0;
 		default:
 			warnings << "checkControllerState: unknown flag" << endl;
 	}

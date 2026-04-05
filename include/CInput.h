@@ -129,7 +129,7 @@ struct keys_t {
 
 // Joystick structure
 struct joystick_t {
-	char	text[16];	// Keep string local to speed up lookup.
+	char	text[24];	// Keep string local to speed up lookup.
 	int		value;
 	int		extra;
 	int		axis;
