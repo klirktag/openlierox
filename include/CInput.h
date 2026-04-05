@@ -46,6 +46,8 @@
 #define		JOY_HAT_DOWN		10
 #define		JOY_HAT_LEFT		11
 #define		JOY_HAT_RIGHT		12
+#define		JOY_TRIGGER_LEFT	13
+#define		JOY_TRIGGER_RIGHT	14
 
 struct KeyboardEvent;
 

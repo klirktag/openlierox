@@ -194,7 +194,9 @@ enum {
 	axis_X = 0,
 	axis_Y = 1,
 	axis_Z = 3,
-	axis_Throttle = 2
+	axis_Throttle = 2,
+	axis_TriggerLeft = 4,
+	axis_TriggerRight = 5
 };
 
 joystick_t Joysticks[] = {
@@ -222,6 +224,8 @@ joystick_t Joysticks[] = {
 	{ "joy1_hat_down",JOY_HAT_DOWN,0, axis_None},
 	{ "joy1_hat_left",JOY_HAT_LEFT,0, axis_None},
 	{ "joy1_hat_right",JOY_HAT_RIGHT,0, axis_None},
+	{ "joy1_trigger_l",JOY_TRIGGER_LEFT,0, axis_TriggerLeft},
+	{ "joy1_trigger_r",JOY_TRIGGER_RIGHT,0, axis_TriggerRight},
 	{ "joy2_up",JOY_UP,0, axis_Y},
 	{ "joy2_down",JOY_DOWN,0, axis_Y},
 	{ "joy2_left",JOY_LEFT,0, axis_X},
@@ -246,6 +250,8 @@ joystick_t Joysticks[] = {
 	{ "joy2_hat_down",JOY_HAT_DOWN,0, axis_None},
 	{ "joy2_hat_left",JOY_HAT_LEFT,0, axis_None},
 	{ "joy2_hat_right",JOY_HAT_RIGHT,0, axis_None},
+	{ "joy2_trigger_l",JOY_TRIGGER_LEFT,0, axis_TriggerLeft},
+	{ "joy2_trigger_r",JOY_TRIGGER_RIGHT,0, axis_TriggerRight},
 };
 
 static SDL_Joystick* joys[2] = {NULL, NULL};
@@ -292,6 +298,10 @@ static int getJoystickControlValue(int flag, int extra, SDL_Joystick* joy)
 			return (SDL_JoystickGetHat(joy, extra) & SDL_HAT_LEFT) ? 1 : 0;
 		case JOY_HAT_RIGHT:
 			return (SDL_JoystickGetHat(joy, extra) & SDL_HAT_RIGHT) ? 1 : 0;
+		case JOY_TRIGGER_LEFT:
+			return SDL_JoystickGetAxis(joy, axis_TriggerLeft);
+		case JOY_TRIGGER_RIGHT:
+			return SDL_JoystickGetAxis(joy, axis_TriggerRight);
 
 		default:
 			warnings << "getJoystickValue: unknown flag" << endl;
@@ -370,6 +380,17 @@ static bool checkJoystickState(int flag, int extra, int j_index) {
 			break;
 		case JOY_HAT_RIGHT:
 			if (SDL_JoystickGetHat(joy, extra) & SDL_HAT_RIGHT)
+				return true;
+			break;
+
+		// Triggers range from -32768 (released) to +32767 (fully pressed); require ~75% press
+		static const int JOY_TRIGGER_THRESHOLD = 16383;
+		case JOY_TRIGGER_LEFT:
+			if (SDL_JoystickGetAxis(joy, axis_TriggerLeft) > JOY_TRIGGER_THRESHOLD)
+				return true;
+			break;
+		case JOY_TRIGGER_RIGHT:
+			if (SDL_JoystickGetAxis(joy, axis_TriggerRight) > JOY_TRIGGER_THRESHOLD)
 				return true;
 			break;
 
@@ -692,7 +713,8 @@ bool CInput::isJoystickAxis()
 {
 #ifdef HAVE_JOYSTICK
 	if (Type == INP_JOYSTICK1 || Type == INP_JOYSTICK2)
-		return Data != JOY_BUTTON && Data != JOY_HAT_UP && Data != JOY_HAT_DOWN && Data != JOY_HAT_LEFT && Data != JOY_HAT_RIGHT;
+		return Data != JOY_BUTTON && Data != JOY_HAT_UP && Data != JOY_HAT_DOWN && Data != JOY_HAT_LEFT && Data != JOY_HAT_RIGHT
+		    && Data != JOY_TRIGGER_LEFT && Data != JOY_TRIGGER_RIGHT;
 #endif
 	return false;
 }
