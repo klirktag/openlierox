@@ -48,8 +48,8 @@ const std::string    ply_def1[] =
 	{"up", "down", "left", "right", "lctrl", "lalt", "lshift", "x", "z", "1", "2", "3", "4", "5" };
 #endif
 const std::string    ply_def2[] = {"kp 8",  "kp 5",    "kp 4",    "kp 6",     "kp +", "kp enter", "kp 0", "kp -", "kp .", "6", "7", "8", "9", "0" };
-const std::string    gp_def1[] = {"joy1_dpup", "joy1_dpdown", "joy1_dpleft", "joy1_dpright", "joy1_righttrigger", "joy1_a", "joy1_lefttrigger", "joy1_y", "joy1_b", "", "", "", "", "" };
-const std::string    gp_def2[] = {"joy2_dpup", "joy2_dpdown", "joy2_dpleft", "joy2_dpright", "joy2_righttrigger", "joy2_a", "joy2_lefttrigger", "joy2_y", "joy2_b", "", "", "", "", "" };
+const std::string    gp_def1[] = {"joy1_dpup", "joy1_dpdown", "joy1_dpleft", "joy1_dpright", "joy1_triggerright", "joy1_a", "joy1_triggerleft", "joy1_y", "joy1_b", "", "", "", "", "" };
+const std::string    gp_def2[] = {"joy2_dpup", "joy2_dpdown", "joy2_dpleft", "joy2_dpright", "joy2_triggerright", "joy2_a", "joy2_triggerleft", "joy2_y", "joy2_b", "", "", "", "", "" };
 const std::string    gen_keys[] = {"Chat", "ShowScore", "ShowHealth", "ShowSettings",  "TakeScreenshot",  "ViewportManager", "SwitchMode", "ToggleTopBar", "TeamChat",	"IrcChat", "Console"};
 const std::string    gen_def[]  = {"i",    "tab",		"h",		  "space",	       "F12",				"F2",				 "alt+enter", "F8",		   "o",			"F4",	"F3"};
 
