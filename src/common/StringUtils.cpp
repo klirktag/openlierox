@@ -799,7 +799,11 @@ static void charactersParsed(void* context, const xmlChar* ch, int len)
 }
 
 /* GCS: custom error function to ignore errors */
+#if LIBXML_VERSION >= 21200
+static void xmlErrorHandlerDummy(void *, const xmlError *)
+#else
 static void xmlErrorHandlerDummy(void *, xmlErrorPtr)
+#endif
 {
 	/* ignore all errors */
 }

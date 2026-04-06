@@ -53,3 +53,9 @@ PrecompiledHeader.*
 *openlierox_pch_dephelp.*
 
 distrib
+
+# Flatpak
+.flatpak-build
+.flatpak-repo
+*.flatpak
+.flatpak-builder

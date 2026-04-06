@@ -5,5 +5,5 @@ Type=Application
 Comment=A real-time excessive Worms-clone
 Exec=openlierox
 TryExec=openlierox
-Icon=OpenLieroX.svg
+Icon=net.openlierox.OpenLieroX
 Categories=Game;
