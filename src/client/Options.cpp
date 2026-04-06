@@ -48,12 +48,16 @@ const std::string    ply_def1[] =
 	{"up", "down", "left", "right", "lctrl", "lalt", "lshift", "x", "z", "1", "2", "3", "4", "5" };
 #endif
 const std::string    ply_def2[] = {"kp 8",  "kp 5",    "kp 4",    "kp 6",     "kp +", "kp enter", "kp 0", "kp -", "kp .", "6", "7", "8", "9", "0" };
+const std::string    gp_def1[] = {"joy1_dpup", "joy1_dpdown", "joy1_dpleft", "joy1_dpright", "joy1_triggerright", "joy1_a", "joy1_triggerleft", "joy1_y", "joy1_b", "", "", "", "", "" };
+const std::string    gp_def2[] = {"joy2_dpup", "joy2_dpdown", "joy2_dpleft", "joy2_dpright", "joy2_triggerright", "joy2_a", "joy2_triggerleft", "joy2_y", "joy2_b", "", "", "", "", "" };
 const std::string    gen_keys[] = {"Chat", "ShowScore", "ShowHealth", "ShowSettings",  "TakeScreenshot",  "ViewportManager", "SwitchMode", "ToggleTopBar", "TeamChat",	"IrcChat", "Console"};
 const std::string    gen_def[]  = {"i",    "tab",		"h",		  "space",	       "F12",				"F2",				 "alt+enter", "F8",		   "o",			"F4",	"F3"};
 
 static_assert( sizeof(ply_keys) / sizeof(std::string) == __SIN_PLY_BOTTOM, "ply_keys__sizecheck" );
 static_assert( sizeof(ply_def1) / sizeof(std::string) == __SIN_PLY_BOTTOM, "ply_def1__sizecheck" );
 static_assert( sizeof(ply_def2) / sizeof(std::string) == __SIN_PLY_BOTTOM, "ply_def2__sizecheck" );
+static_assert( sizeof(gp_def1) / sizeof(std::string) == __SIN_PLY_BOTTOM, "gp_def1__sizecheck" );
+static_assert( sizeof(gp_def2) / sizeof(std::string) == __SIN_PLY_BOTTOM, "gp_def2__sizecheck" );
 static_assert( sizeof(gen_keys) / sizeof(std::string) == __SIN_GENERAL_BOTTOM, "gen_keys__sizecheck" );
 static_assert( sizeof(gen_def) / sizeof(std::string) == __SIN_GENERAL_BOTTOM, "gen_def__sizecheck" );
 
@@ -256,8 +260,10 @@ bool GameOptions::Init() {
 
 	for( uint i = 0; i < sizeof(ply_keys) / sizeof(ply_keys[0]) ; i ++ )
 	{
-		CScriptableVars::RegisterVars("GameOptions.Ply1Controls") ( tLXOptions->sPlayerControls[0][i], ply_keys[i], ply_def1[i] );
-		CScriptableVars::RegisterVars("GameOptions.Ply2Controls") ( tLXOptions->sPlayerControls[1][i], ply_keys[i], ply_def2[i] );
+		CScriptableVars::RegisterVars("GameOptions.Ply1Keyboard") ( tLXOptions->sPlayerControls[0][i], ply_keys[i], ply_def1[i] );
+		CScriptableVars::RegisterVars("GameOptions.Ply2Keyboard") ( tLXOptions->sPlayerControls[1][i], ply_keys[i], ply_def2[i] );
+		CScriptableVars::RegisterVars("GameOptions.Ply1Gamepad") ( tLXOptions->sGamepadControls[0][i], ply_keys[i], gp_def1[i] );
+		CScriptableVars::RegisterVars("GameOptions.Ply2Gamepad") ( tLXOptions->sGamepadControls[1][i], ply_keys[i], gp_def2[i] );
 	}
 	for( uint i = 0; i < sizeof(gen_keys) / sizeof(gen_keys[0]) ; i ++ )
 	{
@@ -788,6 +794,7 @@ GameOptions::GameOptions() : customSettings("custom user settings") {
 	
 	// TODO: don't hardcode the size here
 	sPlayerControls.resize(2);	// Don't change array size or we'll get segfault when vector memory allocation changes
+	sGamepadControls.resize(2);
 
 	// The only place where we call this constructor is in GameOptions::Init().
 	// We init all the other variables there.
