@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application>
-  <id type="desktop">net.openlierox.OpenLieroX</id>
+<component type="desktop-application">
+  <id>net.openlierox.OpenLieroX</id>
+  <launchable type="desktop-id">net.openlierox.OpenLieroX.desktop</launchable>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>LGPL-2.0</project_license>
   <name>OpenLieroX</name>
@@ -14,9 +15,15 @@
   </description>
   <url type="homepage">https://www.openlierox.net/</url>
   <screenshots>
-    <screenshot type="default">https://www.openlierox.net/official/screenshots/olx11.png</screenshot>
-    <screenshot>https://www.openlierox.net/official/screenshots/olx3.png</screenshot>
-    <screenshot>https://www.openlierox.net/official/screenshots/olx1.png</screenshot>
+    <screenshot type="default">
+      <image>https://www.openlierox.net/official/screenshots/olx11.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://www.openlierox.net/official/screenshots/olx3.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://www.openlierox.net/official/screenshots/olx1.png</image>
+    </screenshot>
   </screenshots>
   <content_rating type="oars-1.1">
     <content_attribute id="violence-cartoon">intense</content_attribute>
@@ -58,4 +65,4 @@
     <release version="0.57 Beta2" date="2007-04-10"/>
     <release version="0.57 Beta1" date="2007-01-30"/>
   </releases>
-</application>
+</component>

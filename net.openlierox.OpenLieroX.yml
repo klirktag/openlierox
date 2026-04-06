@@ -1,0 +1,127 @@
+app-id: net.openlierox.OpenLieroX
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: openlierox
+
+finish-args:
+  # X11 + Wayland
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  # OpenGL
+  - --device=dri
+  # Audio (PulseAudio)
+  - --socket=pulseaudio
+  # Network (multiplayer)
+  - --share=network
+  # Game controllers
+  - --device=all
+  # User config, replays, custom content
+  - --filesystem=~/.OpenLieroX
+
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /lib/cmake
+  - /lib/*.a
+  - /lib/*.la
+  - /share/man
+  - /share/doc
+  - /share/aclocal
+
+modules:
+  - name: boost
+    buildsystem: simple
+    build-commands:
+      - ./bootstrap.sh --with-libraries=system,headers
+      - ./b2 headers
+      - ./b2 install --prefix=/app -j${FLATPAK_BUILDER_N_JOBS}
+    sources:
+      - type: archive
+        url: https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz
+        sha256: f55c340aa49763b1925ccf02b2e83f35fdcf634c9d5164a2acb87540173c741d
+
+  - name: freealut
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_LIBDIR=lib
+    sources:
+      - type: archive
+        url: https://github.com/vancegroup/freealut/archive/refs/tags/freealut_1_1_0.tar.gz
+        sha256: c3880d7dbb90c7db54e1d6b88aa0a34dd9e2d828fd389be0d2cbb2632b0885dd
+
+  - name: libgd
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_LIBDIR=lib
+      - -DENABLE_PNG=ON
+      - -DENABLE_JPEG=ON
+      - -DENABLE_WEBP=OFF
+      - -DENABLE_TIFF=OFF
+      - -DENABLE_FREETYPE=OFF
+      - -DENABLE_FONTCONFIG=OFF
+    sources:
+      - type: archive
+        url: https://github.com/libgd/libgd/releases/download/gd-2.3.3/libgd-2.3.3.tar.gz
+        sha256: dd3f1f0bb016edcc0b2d082e8229c822ad1d02223511997c80461481759b1ed2
+
+  - name: SDL2_mixer
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_LIBDIR=lib
+      - -DSDL2MIXER_MOD=OFF
+      - -DSDL2MIXER_MIDI=OFF
+      - -DSDL2MIXER_FLAC=OFF
+    sources:
+      - type: archive
+        url: https://github.com/libsdl-org/SDL_mixer/releases/download/release-2.8.1/SDL2_mixer-2.8.1.tar.gz
+        sha256: cb760211b056bfe44f4a1e180cc7cb201137e4d1572f2002cc1be728efd22660
+
+  - name: SDL2_image
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_LIBDIR=lib
+    sources:
+      - type: archive
+        url: https://github.com/libsdl-org/SDL_image/releases/download/release-2.8.8/SDL2_image-2.8.8.tar.gz
+        sha256: 2213b56fdaff2220d0e38c8e420cbe1a83c87374190cba8c70af2156097ce30a
+
+  - name: openlierox
+    buildsystem: simple
+    build-options:
+      cflags: -I/usr/include/libxml2
+      cxxflags: -I/usr/include/libxml2
+    build-commands:
+      - cmake . -DDEBUG=0 -DHAWKNL_BUILTIN=1 -DLIBZIP_BUILTIN=1 -DLIBLUA_BUILTIN=1 -DX11=0 -DHASBFD=0 -DBREAKPAD=0 -DSYSTEM_DATA_DIR=/app/share/games
+      - make -j${FLATPAK_BUILDER_N_JOBS}
+      - install -Dm755 bin/openlierox /app/bin/openlierox
+      - mkdir -p /app/share/games/OpenLieroX
+      - cp -r share/gamedir/* /app/share/games/OpenLieroX/
+      - install -Dm644 share/net.openlierox.OpenLieroX.desktop /app/share/applications/net.openlierox.OpenLieroX.desktop
+      - install -Dm644 share/net.openlierox.OpenLieroX.appdata.xml /app/share/metainfo/net.openlierox.OpenLieroX.appdata.xml
+      - install -Dm644 share/OpenLieroX.svg /app/share/icons/hicolor/scalable/apps/net.openlierox.OpenLieroX.svg
+      - install -Dm644 share/OpenLieroX.64.png /app/share/icons/hicolor/64x64/apps/net.openlierox.OpenLieroX.png
+      - install -Dm644 share/OpenLieroX.32.png /app/share/icons/hicolor/32x32/apps/net.openlierox.OpenLieroX.png
+      - install -Dm644 share/OpenLieroX.16.png /app/share/icons/hicolor/16x16/apps/net.openlierox.OpenLieroX.png
+    sources:
+      - type: dir
+        path: .
+        skip:
+          - .flatpak-build
+          - .flatpak-repo
+          - .flatpak-builder
+          - CMakeCache.txt
+          - CMakeFiles
+          - Makefile
+          - cmake_install.cmake
+          - bin
+          - "*.flatpak"
